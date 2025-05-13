@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "author": "John William",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-s2-devkitm-1", "id": "esp", "top": 53.29, "left": 33.37, "attrs": {} },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": 207.6,
+      "left": -120.6,
+      "attrs": { "color": "red", "flip": "1" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led2",
+      "top": 207.6,
+      "left": -53.4,
+      "attrs": { "color": "red", "flip": "1" }
+    }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "led2:C", "esp:GND.1", "black", [ "v0" ] ],
+    [ "esp:GND.1", "led1:C", "black", [ "h0" ] ],
+    [ "led2:A", "esp:10", "red", [ "v0", "h-28.8", "v-57.6" ] ],
+    [ "led1:A", "esp:9", "red", [ "v0", "h-28.8", "v-86.4" ] ]
+  ],
+  "dependencies": {}
+}
