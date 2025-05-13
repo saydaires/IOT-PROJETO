@@ -1,5 +1,5 @@
  #include <DabbleESP32.h>
- #incluide <Arduino.h>
+ #include <Arduino.h>
 #define motor_esquer 9
 #define motor_direi 10
 
