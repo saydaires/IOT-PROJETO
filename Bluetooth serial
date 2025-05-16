@@ -1,0 +1,72 @@
+#include "BluetoothSerial.h"
+#include "driver/gpio.h"
+
+BluetoothSerial SerialBT;
+
+// Pinos dos motores
+#define IN1 GPIO_NUM_26
+#define IN2 GPIO_NUM_27
+#define IN3 GPIO_NUM_14
+#define IN4 GPIO_NUM_12
+
+void setup() {
+  SerialBT.begin("Robo_Sumo");
+
+  // Configura os pinos como saída (mais rápido que pinMode)
+  gpio_set_direction(IN1, GPIO_MODE_OUTPUT);
+  gpio_set_direction(IN2, GPIO_MODE_OUTPUT);
+  gpio_set_direction(IN3, GPIO_MODE_OUTPUT);
+  gpio_set_direction(IN4, GPIO_MODE_OUTPUT);
+
+  parar();
+}
+
+void loop() {
+  if (SerialBT.available()) {
+    char comando = SerialBT.read();
+
+    switch (comando) {
+      case 'F': frente(); break;
+      case 'T': tras(); break;
+      case 'D': direita(); break;
+      case 'E': esquerda(); break;
+      case 'P': parar(); break;
+    }
+  }
+}
+
+// Funções otimizadas
+inline void frente() {
+  gpio_set_level(IN1, 1);
+  gpio_set_level(IN2, 0);
+  gpio_set_level(IN3, 1);
+  gpio_set_level(IN4, 0);
+}
+
+inline void tras() {
+  gpio_set_level(IN1, 0);
+  gpio_set_level(IN2, 1);
+  gpio_set_level(IN3, 0);
+  gpio_set_level(IN4, 1);
+}
+
+inline void direita() {
+  gpio_set_level(IN1, 1);
+  gpio_set_level(IN2, 0);
+  gpio_set_level(IN3, 0);
+  gpio_set_level(IN4, 1);
+}
+
+inline void esquerda() {
+  gpio_set_level(IN1, 0);
+  gpio_set_level(IN2, 1);
+  gpio_set_level(IN3, 1);
+  gpio_set_level(IN4, 0);
+}
+
+inline void parar() {
+  gpio_set_level(IN1, 0);
+  gpio_set_level(IN2, 0);
+  gpio_set_level(IN3, 0);
+  gpio_set_level(IN4, 0);
+}
