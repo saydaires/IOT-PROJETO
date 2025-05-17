@@ -1,38 +1,34 @@
 #include <BluetoothSerial.h>
 BluetoothSerial SerialBT;
 
-// Pinos dos motores
-#define MOTOR_DIR_F 18
-#define MOTOR_DIR_R 19
-#define MOTOR_ESQ_F 22
-#define MOTOR_ESQ_R 23
+#define MOTOR_DIR_F 12
+#define MOTOR_DIR_R 13
+#define MOTOR_ESQ_F 32
+#define MOTOR_ESQ_R 35
 
 void setup() {
-  Serial.begin(115200);                     // Monitor serial
-  SerialBT.begin("Equipe02-SumoESP32");              // Nome do dispositivo Bluetooth
+  Serial.begin(115200);                     
+  SerialBT.begin("Equipe02-Sumo");              
 
-  // Pinos como saída
   pinMode(MOTOR_DIR_F, OUTPUT);
   pinMode(MOTOR_DIR_R, OUTPUT);
   pinMode(MOTOR_ESQ_F, OUTPUT);
   pinMode(MOTOR_ESQ_R, OUTPUT);
 
-  stopMotors(); // Inicia parado
+  stopMotors(); 
 }
 
 void loop() {
   if (SerialBT.available()) {
-    char comando = SerialBT.read();          // Lê um caractere enviado
+    char comando = SerialBT.read();          
     Serial.print("Comando recebido: ");
     Serial.println(comando);
 
-    // Interpreta comandos recebidos
     switch (comando) {
-      case '1': moverFrente();     break;    // Frente
-      case '3': moverTras();       break;    // Trás
-      case '4': virarEsquerda();   break;    // Esquerda
-      case '2': virarDireita();    break;    // Direita
-      //case 'P': stopMotors();      break;    // Parar
+      case '1': moverFrente();     break;    
+      case '3': moverTras();       break;    
+      case '4': virarEsquerda();   break;    
+      case '2': virarDireita();    break;    
       default:
         Serial.println("Comando inválido");
         stopMotors();
@@ -41,7 +37,6 @@ void loop() {
   }
 }
 
-// Funções de movimento
 void moverFrente() {
   Serial.println("FRENTE");
   digitalWrite(MOTOR_DIR_F, HIGH);
